@@ -18,7 +18,7 @@ public class Kiosk {
                 Menu select;
                 if (input > 0 && input <= menus.size()) {
                     select = menus.get(input - 1);
-                    System.out.println("1.선택한 메뉴 : " + select.getCategory() + "\n");
+                    System.out.println("선택한 메뉴 : " + select.getCategory() + "\n");
                     while(true) {
                         System.out.println("[" + select.getCategory() + " MENU]");
                         int number = 0;
@@ -28,7 +28,7 @@ public class Kiosk {
                         System.out.println("0. 뒤로가기");
                         input = Integer.parseInt(sc.nextLine());
                         if(input > 0 && input <= select.getMenuItems().size()){
-                            System.out.println("2.선택한 메뉴 : " + select.getMenuItems().get(input - 1).getName() + "\n");
+                            System.out.println("선택한 메뉴 : " + select.getMenuItems().get(input - 1).getName() + "\n");
                         }
                         else if(input == 0) break;
                         else System.out.println("잘못된 메뉴 번호입니다.");
