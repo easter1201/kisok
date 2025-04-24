@@ -1,41 +1,40 @@
 package Lv4;
 
-import Lv3.MenuItem;
-
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Kiosk {
-    private List<MenuItem> menuItems;
 
-    public Kiosk(List<MenuItem> menuItems){
-        this.menuItems = menuItems;
-    }
-
-    public void start(){
+    public void start(List<Menu> menus){
         Scanner sc = new Scanner(System.in);
 
         while (true) {
             try {
                 System.out.println("[SHAKESHACK MENU]");
-                int number = 0;
-                for (MenuItem menu : menuItems) {
-                    System.out.print(++number + ". " + menu.getName() + "| ");
-                    System.out.print(menu.getPrice() + " | ");
-                    System.out.println(menu.getDescription());
+                for(int i = 0; i < menus.size(); i++){
+                    System.out.println((i + 1) + ". " + menus.get(i).getCategory());
                 }
-                System.out.println("0. 종료           | 종료");
+                System.out.println("0. 종료");
                 int input = Integer.parseInt(sc.nextLine());
-
-                if (input > 0 && input <= menuItems.size()) {
-                    MenuItem select = menuItems.get(input - 1);
-                    System.out.println("선택한 메뉴 : " + select.getName() + " | " + select.getPrice() + " | " + select.getDescription() + "\n");
-                }
-                else if (input == 0) {
-                    break;
-                } else {
-                    System.out.println("잘못된 메뉴 번호입니다.");
-                }
+                Menu select;
+                if (input > 0 && input <= menus.size()) {
+                    select = menus.get(input - 1);
+                    System.out.println("1.선택한 메뉴 : " + select.getCategory() + "\n");
+                    while(true) {
+                        System.out.println("[" + select.getCategory() + " MENU]");
+                        int number = 0;
+                        for (MenuItem item : select.getMenuItems()) {
+                            System.out.println(++number + ". " + item.getName() + " | " + item.getPrice() + " | " + item.getDescription());
+                        }
+                        System.out.println("0. 뒤로가기");
+                        input = Integer.parseInt(sc.nextLine());
+                        if(input > 0 && input <= select.getMenuItems().size()){
+                            System.out.println("2.선택한 메뉴 : " + select.getMenuItems().get(input - 1).getName() + "\n");
+                        }
+                        else if(input == 0) break;
+                        else System.out.println("잘못된 메뉴 번호입니다.");
+                    }
+                }else if (input == 0) break;
+                else System.out.println("잘못된 메뉴 번호입니다.");
             }catch(NumberFormatException e){
                 System.out.println("문자는 입력할 수 없습니다.");
             }
