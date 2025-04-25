@@ -14,15 +14,16 @@ public class Kiosk {
         System.out.println("0. 종료");
     }
 
-    private void selectingMenu(Scanner sc, List<Menu> menus, int input, boolean isWork){
+    private boolean selectingMenu(Scanner sc, List<Menu> menus, int input){
         Menu select;
         if (input > 0 && input <= menus.size()) {
             select = menus.get(input - 1);
             System.out.println("선택한 메뉴 : " + select.getCategory() + "\n");
             selectingItem(sc, input, select);
         }
-        else if(input == 0) isWork = false;
-        else System.out.println("잘못된 메뉴 번호입니다.");
+        else if(input == 0) return false;
+        else System.out.println("잘못된 메뉴 번호입니다.\n");
+        return true;
     }
 
     private void selectingItem(Scanner sc, int input, Menu select){
@@ -35,10 +36,11 @@ public class Kiosk {
             System.out.println("0. 뒤로가기");
             input = Integer.parseInt(sc.nextLine());
             if(input > 0 && input <= select.getMenuItems().size()){
-                System.out.println("선택한 메뉴 : " + select.getMenuItems().get(input - 1).getName() + "\n");
+                MenuItem selected = select.getMenuItems().get(input - 1);
+                System.out.println("선택한 메뉴 : " + selected.getName().strip() + " | " + selected.getPrice() + " | " + selected.getDescription() + "\n");
             }
             else if(input == 0) break;
-            else System.out.println("잘못된 메뉴 번호입니다.");
+            else System.out.println("잘못된 메뉴 번호입니다.\n");
         }
     }
 
@@ -49,15 +51,14 @@ public class Kiosk {
             try {
                 displayInitMenu(menus);
                 int input = Integer.parseInt(sc.nextLine());
-                selectingMenu(sc, menus, input, isWork);
+                isWork = selectingMenu(sc, menus, input);
             }catch(NumberFormatException e){
-                System.out.println("문자는 입력할 수 없습니다.");
+                System.out.println("문자는 입력할 수 없습니다.\n");
             }
             catch(Exception e){
-                System.out.println("잘못된 입력입니다.");
+                System.out.println("잘못된 입력입니다.\n");
             }
         }
         sc.close();
     }
-
 }
