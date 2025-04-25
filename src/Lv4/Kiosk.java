@@ -72,7 +72,9 @@ public class Kiosk {
         System.out.println("\n1. 주문     2. 메뉴판");
         int input = Integer.parseInt(sc.nextLine());
         if(input == 1){
-            System.out.println("주문이 완료되었습니다. 금액은 W " + total + "입니다.\n");
+            double discount = checkingDiscount(sc);
+            double charge = total * ((100 - discount) / 100);
+            System.out.println("주문이 완료되었습니다. 금액은 W " + String.format("%.1f", charge) + " 입니다.\n");
             cleaningOrder(cart);
         }
         else if(input != 2){
@@ -95,6 +97,21 @@ public class Kiosk {
         else if (input != 2) {
             System.out.println("1, 2 중 하나만 입력해주세요.\n");
             checkSelect(sc, selected, cart);
+        }
+    }
+
+    private double checkingDiscount(Scanner sc){
+        while(true) {
+            System.out.println("할인 정보를 입력해주세요.");
+            int i = 0;
+            for (DiscountRate type : DiscountRate.values()) {
+                System.out.println(++i + ". " +type.displayDiscount());
+            }
+            int discountInput = Integer.parseInt(sc.nextLine());
+            if (discountInput > 0 && discountInput < DiscountRate.values().length + 1) {
+                DiscountRate selected = DiscountRate.checkDiscount(discountInput);
+                return selected.getDiscountRate();
+            } else System.out.println("올바른 할인 정보를 입력해주세요.");
         }
     }
 
