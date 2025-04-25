@@ -19,7 +19,7 @@ public class Kiosk {
     }
 
     private void displayOrderMenu(int i){
-        System.out.println("[ORDER MENU]");
+        System.out.println("\n[ORDER MENU]");
         System.out.println(++i + ". Orders       | 장바구니를 확인 후 주문합니다.");
         System.out.println(++i + ". Cancel       | 진행중인 주문을 취소합니다.");
     }
@@ -34,7 +34,7 @@ public class Kiosk {
         }
         else if(cart.getMenuItems().size() > 0 && input <= menus.size() + 2){
             if(input == menus.size() + 1) selectingOrder(sc, cart);
-            else if(input == menus.size() + 2) cleaningOrder(cart);
+            else if(input == menus.size() + 2) cleaningOrder(sc, cart);
         }
         else System.out.println("잘못된 메뉴 번호입니다.\n");
         return true;
@@ -75,16 +75,36 @@ public class Kiosk {
             double discount = checkingDiscount(sc);
             double charge = total * ((100 - discount) / 100);
             System.out.println("주문이 완료되었습니다. 금액은 W " + String.format("%.1f", charge) + " 입니다.\n");
-            cleaningOrder(cart);
+            cleaningOrder(sc, cart);
         }
         else if(input != 2){
             System.out.println("잘못된 메뉴 번호입니다.\n");
         }
     }
 
-    private void cleaningOrder(Menu cart){
-        cart.getMenuItems().clear();
-        System.out.println("\n장바구니가 비워졌습니다.\n");
+    private void cleaningOrder(Scanner sc, Menu cart){
+        System.out.println("\n빼고싶은 메뉴를 선택해주세요.");
+        System.out.println("[Orders]");
+        int i = 0;
+        for(MenuItem items : cart.getMenuItems()){
+            System.out.println(++i + ". " + items.getName() + " | " + items.getPrice() + " | " + items.getDescription());
+        }
+        System.out.println("0. 전체삭제 / 메뉴판");
+        int input = Integer.parseInt(sc.nextLine());
+        if(input == 0) {
+            System.out.println("전체삭제를 원하시면 0, 메뉴판으로 돌아가시려면 1을 입력해주세요.");
+            input = Integer.parseInt(sc.nextLine());
+            if(input == 0) {
+                cart.deleteAllMenuItems();
+                System.out.println("장바구니의 모든 상품이 삭제되었습니다.");
+            }
+            else if(input != 1) System.out.println("올바른 번호를 입력해주세요.");
+        }
+        else if(input > 0 && input < cart.getMenuItems().size() + 1){
+            String searching = cart.getMenuItems().get(input - 1).getName();
+            cart.deleteMenuItems(searching);
+            System.out.println("상품이 장바구니에서 삭제되었습니다.");
+        }
     }
 
     private void checkSelect(Scanner sc, MenuItem selected, Menu cart){
@@ -118,7 +138,7 @@ public class Kiosk {
     public void start(List<Menu> menus){
         Scanner sc = new Scanner(System.in);
 
-        Menu cart = new Menu();
+        Menu cart = new Menu("Selected");
 
         while (isWork) {
             try {
