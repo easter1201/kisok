@@ -6,6 +6,8 @@ public class Menu {
     private List<MenuItem> menuItems = new ArrayList<>();
     private String category;
 
+    public Menu(){};
+
     public Menu(String category){
         this.category = category;
     }
