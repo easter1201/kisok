@@ -1,10 +1,12 @@
-package Lv4;
+package Challenge_Lv1;
 
 import java.util.*;
 
 public class Menu {
     private List<MenuItem> menuItems = new ArrayList<>();
     private String category;
+
+    public Menu(){};
 
     public Menu(String category){
         this.category = category;

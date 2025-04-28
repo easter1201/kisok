@@ -1,7 +1,5 @@
 package Lv3;
 
-import Lv3.MenuItem;
-
 import java.util.*;
 
 public class Kiosk {

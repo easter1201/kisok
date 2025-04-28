@@ -1,4 +1,5 @@
-package Lv4;
+package Challenge_Lv1;
+
 
 public enum DiscountRate {
     patriot(1, 10),
