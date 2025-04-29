@@ -13,11 +13,11 @@ public class Main {
         burgers.addMenuItem(new MenuItem("Hamburger     ", "W 5.4", "비프패티를 기반으로 야채가 들어간 기본버거"));
 
         Menu drinks = new Menu("Drinks");
-        drinks.addMenuItem(new MenuItem("ChocoShake     ", "W 4.9", "초코쉐이크"));
-        drinks.addMenuItem(new MenuItem("Coke           ", "W 3.0", "콜라"));
+        drinks.addMenuItem(new MenuItem("ChocoShake    ", "W 4.9", "초코쉐이크"));
+        drinks.addMenuItem(new MenuItem("Coke          ", "W 3.0", "콜라"));
 
         Menu desserts = new Menu("Desserts");
-        desserts.addMenuItem(new MenuItem("FriedPotato  ", "W 4.5", "감자튀김"));
+        desserts.addMenuItem(new MenuItem("FriedPotato   ", "W 4.5", "감자튀김"));
 
         menus.add(burgers);
         menus.add(drinks);
