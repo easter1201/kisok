@@ -18,6 +18,28 @@ public class Kiosk {
         System.out.println("=========================");
     }
 
+    private void decorateList(String input){
+        System.out.println("=========================");
+        System.out.println("[" + input + "]");
+        System.out.println("-------------------------");
+    }
+
+    private void decorateTotal(String input){
+        System.out.println("\n[" + input + "]");
+        System.out.println("-------------------------");
+    }
+
+    private void decorateSelectCheck(){
+        System.out.println("위 메뉴를 장바구니에 추가하시겠습니까?");
+        System.out.println("-------------------------");
+        System.out.println("1. 확인       2. 취소");
+        System.out.println("=========================");
+    }
+
+    private void decoratePopup(String input){
+        System.out.println("\n*" + input + "*\n");
+    }
+
     private void displayInitMenu(List<Menu> menus, Menu cart){
         decorateMenuHead("    [SHAKESHACK MENU]");
         int menuNumber = 0;
@@ -36,6 +58,13 @@ public class Kiosk {
         System.out.println(++i + ". Orders | 장바구니를 확인 후 주문합니다.");
         System.out.println(++i + ". Cancel | 진행중인 주문을 취소합니다.");
         System.out.println("=========================");
+    }
+
+    private void displayMenus(Menu input){
+        int num = 0;
+        for(MenuItem items : input.getMenuItems()){
+            System.out.println(++ num + ". " + items.getName() + " | " + items.getPrice() + " | " + items.getDescription());
+        }
     }
 
     private boolean selectingMenu(Scanner sc, List<Menu> menus, int input, Menu cart) throws Exception{
@@ -69,24 +98,6 @@ public class Kiosk {
         }
     }
 
-    private void displayMenus(Menu input){
-        int num = 0;
-        for(MenuItem items : input.getMenuItems()){
-            System.out.println(++ num + ". " + items.getName() + " | " + items.getPrice() + " | " + items.getDescription());
-        }
-    }
-
-    private void decorateList(String input){
-        System.out.println("=========================");
-        System.out.println("[" + input + "]");
-        System.out.println("-------------------------");
-    }
-
-    private void decorateTotal(String input){
-        System.out.println("\n[" + input + "]");
-        System.out.println("-------------------------");
-    }
-
     private void selectingOrder(Scanner sc, Menu cart) throws Exception{
         decoratePopup("아래와 같이 주문 하시겠습니까?");
         decorateList("Orders");
@@ -115,14 +126,14 @@ public class Kiosk {
     }
 
     private void cleaningOrder(Scanner sc, Menu cart) throws Exception{
-        decorateMenuHead("빼고싶은 메뉴를 선택해주세요.");
+        decorateMenuHead("취소할 메뉴를 선택해주세요.");
         decorateList("Orders");
         int i = 0;
         displayMenus(cart);
-        System.out.println("0. 전체삭제 / 메뉴판");
+        decorateTerminate("0. 전체삭제 / 메뉴판");
         int input = Integer.parseInt(sc.nextLine());
         if(input == 0) {
-            System.out.println("전체삭제를 원하시면 0, 메뉴판으로 돌아가시려면 1을 입력해주세요.");
+            decorateMenuHead("전체삭제를 원하시면 0, 메뉴판으로 돌아가시려면 1을 입력해주세요.");
             input = Integer.parseInt(sc.nextLine());
             if(input == 0) {
                 cart.deleteAllMenuItems();
@@ -134,23 +145,13 @@ public class Kiosk {
             String searching = cart.getMenuItems().get(input - 1).getName();
             cart.deleteMenuItems(searching);
             decoratePopup("상품이 장바구니에서 삭제되었습니다.");
+            if(cart.getMenuItems().size() > 0) cleaningOrder(sc, cart);
         }
-    }
-
-    private void decorateSelect(){
-        System.out.println("위 메뉴를 장바구니에 추가하시겠습니까?");
-        System.out.println("-------------------------");
-        System.out.println("1. 확인       2. 취소");
-        System.out.println("=========================");
-    }
-
-    private void decoratePopup(String input){
-        System.out.println("\n*" + input + "*\n");
     }
 
     private void checkSelect(Scanner sc, MenuItem selected, Menu cart){
         decorateMenuHead("선택한 메뉴 : " + selected.getName().strip() + " | " + selected.getPrice() + " | " + selected.getDescription());
-        decorateSelect();
+        decorateSelectCheck();
         int input = Integer.parseInt(sc.nextLine());
         if (input == 1) {
             cart.addMenuItem(selected);
