@@ -9,17 +9,17 @@ public class Menu {
 
     public Menu(String category){
         this.category = category;
-    }
+    }               //카테고리명 설정
 
     public void addMenuItem(MenuItem menuItem){
         menuItems.add(menuItem);
-    }
+    }  //상품 추가
 
     public String getCategory(){
         return category;
-    }
+    }                         //카테고리 리턴
 
-    public void deleteMenuItems(String searchName){
+    public void deleteMenuItems(String searchName){                         //상품 제거 - Lambda & Stream 사용, 장바구니 제거 시 사용
         this.menuItems.stream()
                 .filter(entry -> entry.getName().equals(searchName))
                 .collect(Collectors.toList()).forEach(entry ->
@@ -30,9 +30,9 @@ public class Menu {
 
     public void deleteAllMenuItems(){
         this.menuItems.removeAll(menuItems);
-    }
+    } //상품 전체 제거
 
-    public List<MenuItem> getMenuItems(){
+    public List<MenuItem> getMenuItems(){                                   //상품 전체 조회
         return this.menuItems.stream()
                 .collect(Collectors.toList());
     }
